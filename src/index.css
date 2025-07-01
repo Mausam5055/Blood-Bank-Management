@@ -1,0 +1,86 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark theme only - Midnight Lifeline */
+    --background: 207 71% 8%; /* space-navy */
+    --foreground: 210 11% 92%; /* dark-text */
+
+    --card: 207 71% 12%;
+    --card-foreground: 210 11% 92%;
+
+    --popover: 207 71% 12%;
+    --popover-foreground: 210 11% 92%;
+
+    --primary: 348 83% 70%; /* neon-pink */
+    --primary-foreground: 207 71% 8%;
+
+    --secondary: 160 84% 65%; /* electric-cyan */
+    --secondary-foreground: 207 71% 8%;
+
+    --muted: 207 71% 15%;
+    --muted-foreground: 210 11% 65%;
+
+    --accent: 160 84% 65%;
+    --accent-foreground: 207 71% 8%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 11% 92%;
+
+    --border: 207 71% 15%;
+    --input: 207 71% 15%;
+    --ring: 348 83% 70%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 207 71% 8%;
+    --sidebar-foreground: 210 11% 92%;
+    --sidebar-primary: 348 83% 70%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 207 71% 15%;
+    --sidebar-accent-foreground: 210 11% 92%;
+    --sidebar-border: 207 71% 15%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground transition-colors duration-500;
+  }
+
+  /* Hide all scrollbars */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+
+  *::-webkit-scrollbar {
+    display: none; /* WebKit */
+  }
+
+  html, body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Custom glassmorphism styles */
+.glass {
+  @apply backdrop-blur-md bg-white/10 border border-white/20;
+}
+
+.glass-card {
+  @apply backdrop-blur-lg bg-gray-900/80 border border-white/10 shadow-xl;
+}
