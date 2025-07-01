@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { UserPlus, Calendar, Heart, Award, ArrowRight } from 'lucide-react';
@@ -60,7 +59,7 @@ const HowItWorks = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
             How It Works
           </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+          <p className="italic text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
             Donating blood is simple and safe. Follow these easy steps to become a life-saving hero.
           </p>
         </div>
@@ -85,7 +84,7 @@ const HowItWorks = () => {
                 <h3 className="text-xl font-bold text-white mb-4">
                   {step.title}
                 </h3>
-                <p className="text-white/70 mb-6 leading-relaxed">
+                <p className="italic text-white/70 mb-6 leading-relaxed">
                   {step.description}
                 </p>
 
@@ -116,7 +115,7 @@ const HowItWorks = () => {
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
               Ready to Get Started?
             </h3>
-            <p className="text-white/70 mb-8 max-w-2xl mx-auto">
+            <p className="italic text-white/70 mb-8 max-w-2xl mx-auto">
               Join thousands of heroes who are making a difference. Your journey to save lives starts here.
             </p>
             

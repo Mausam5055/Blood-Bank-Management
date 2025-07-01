@@ -34,7 +34,7 @@ const CallToAction = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight drop-shadow-lg animate-fade-in">
             Ready to <span className="text-red-500">Save Lives?</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed animate-fade-in">
+          <p className="italic text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed animate-fade-in">
             Join our community of heroes. Every donation matters, every life counts. Take action today and be part of something bigger than yourself.
           </p>
         </div>
@@ -47,7 +47,7 @@ const CallToAction = () => {
           >
             <Heart className="w-8 h-8 text-red-500" fill="currentColor" />
             <span className="text-lg font-semibold">Become a Donor</span>
-            <span className="text-sm opacity-90">Register to donate blood</span>
+            <span className="italic text-sm opacity-90">Register to donate blood</span>
           </Button>
           <Button
             size="lg"
@@ -56,7 +56,7 @@ const CallToAction = () => {
           >
             <Droplets className="w-8 h-8 text-cyan-400" />
             <span className="text-lg font-semibold">Request Blood</span>
-            <span className="text-sm opacity-90">Find blood donors nearby</span>
+            <span className="italic text-sm opacity-90">Find blood donors nearby</span>
           </Button>
           <Button
             size="lg"
@@ -65,7 +65,7 @@ const CallToAction = () => {
           >
             <Users className="w-8 h-8 text-purple-400" />
             <span className="text-lg font-semibold">Find Donors</span>
-            <span className="text-sm opacity-90">Browse donor directory</span>
+            <span className="italic text-sm opacity-90">Browse donor directory</span>
           </Button>
           <Button
             size="lg"
@@ -74,7 +74,7 @@ const CallToAction = () => {
           >
             <Calendar className="w-8 h-8 text-green-400" />
             <span className="text-lg font-semibold">Find Events</span>
-            <span className="text-sm opacity-90">Join donation events</span>
+            <span className="italic text-sm opacity-90">Join donation events</span>
           </Button>
         </div>
         {/* Main CTA Section */}
@@ -83,7 +83,7 @@ const CallToAction = () => {
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-fade-in">
               <span className="text-red-500">Every Drop Counts</span>
             </h3>
-            <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto animate-fade-in">
+            <p className="italic text-lg text-gray-300 mb-8 max-w-2xl mx-auto animate-fade-in">
               One blood donation can save up to three lives. Join thousands of heroes who have already made a difference in their communities.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

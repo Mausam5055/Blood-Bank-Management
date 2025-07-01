@@ -24,7 +24,7 @@ const MeetTheCreator = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Meet the <span className="text-red-500">Creator</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="italic text-xl text-gray-300 max-w-2xl mx-auto">
             The passionate developer behind LifeGiver who believes in the power of technology to save lives
           </p>
         </div>
@@ -67,7 +67,7 @@ const MeetTheCreator = () => {
                   Download Resume
                 </a>
               </div>
-              <p className="text-lg text-gray-300 mb-6 animate-fade-in">
+              <p className="italic text-lg text-gray-300 mb-6 animate-fade-in">
                 VIT University • Assam, India
               </p>
               

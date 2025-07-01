@@ -39,21 +39,20 @@ const Hero = () => {
 
       <Navbar />
       
-      {/* Hero Content - Fixed padding to account for navbar */}
+      {/* Hero Content - Modern Glassmorphism Card */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4 pt-16">
-        <div className="text-center max-w-4xl mx-auto">
+        <div className="w-full max-w-3xl mx-auto px-6 py-12 sm:px-12 sm:py-16 flex flex-col items-center text-center animate-fade-in
+          bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl
+          md:bg-transparent md:backdrop-blur-none md:border-none md:shadow-none">
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-neon-pink to-electric-cyan drop-shadow-[0_4px_32px_rgba(0,0,0,0.7)]">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight text-white drop-shadow-[0_6px_32px_rgba(0,0,0,0.8)]">
             Be a Hero in
-            <span className="block mt-2">Real Life</span>
+            <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-neon-pink via-electric-cyan to-white">Real Life</span>
           </h1>
-
           {/* Subheadline */}
-          <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Every drop counts. Every donation saves lives. Join thousands of heroes 
-            making a difference through blood donation.
+          <p className="italic text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
+            Every drop counts. Every donation saves lives. Join thousands of heroes making a difference through blood donation.
           </p>
-
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
             <Button 
@@ -64,7 +63,6 @@ const Hero = () => {
               <Droplets className="w-5 h-5 mr-2" />
               Become a Donor
             </Button>
-            
             <Button 
               size="lg" 
               variant="outline" 
@@ -75,18 +73,17 @@ const Hero = () => {
               Request Blood
             </Button>
           </div>
-
           {/* Simple Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-            <div className="text-center backdrop-blur-md bg-white/10 p-6 rounded-xl border border-white/20 shadow-lg">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-4">
+            <div className="text-center bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow-lg">
               <div className="text-3xl font-bold text-white mb-2">25,000+</div>
               <div className="text-white/80">Lives Saved</div>
             </div>
-            <div className="text-center backdrop-blur-md bg-white/10 p-6 rounded-xl border border-white/20 shadow-lg">
+            <div className="text-center bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow-lg">
               <div className="text-3xl font-bold text-white mb-2">15,000+</div>
               <div className="text-white/80">Active Donors</div>
             </div>
-            <div className="text-center backdrop-blur-md bg-white/10 p-6 rounded-xl border border-white/20 shadow-lg">
+            <div className="text-center bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow-lg">
               <div className="text-3xl font-bold text-white mb-2">50+</div>
               <div className="text-white/80">Partner Hospitals</div>
             </div>
