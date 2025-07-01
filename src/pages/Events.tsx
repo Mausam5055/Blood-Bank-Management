@@ -309,6 +309,25 @@ const Events = () => {
 
       <Navbar />
       
+      <div className="relative w-full px-0 pt-12 pb-6 text-center overflow-hidden">
+        {/* Hero Background Image - edge-to-edge */}
+        <div className="absolute left-0 top-0 w-screen h-full z-0">
+          <img
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80"
+            alt="Blood donation event hero background"
+            className="w-full h-full object-cover object-center opacity-60"
+          />
+          {/* Gradient overlay for smooth blend */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/95" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <div className="text-center mb-8 animate-fade-in">
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-neon-pink to-electric-cyan mb-4"></h1>
+            <p className="hidden md:block text-lg md:text-xl text-gray-300 max-w-2xl mx-auto"></p>
+          </div>
+        </div>
+      </div>
+
       <div className="relative z-10 pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}

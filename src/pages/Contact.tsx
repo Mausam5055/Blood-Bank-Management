@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -66,27 +65,40 @@ const Contact = () => {
 
       <Navbar />
       
-      <div className="relative z-10 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Compact Header */}
-          <div className="text-center mb-8 animate-fade-in">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-neon-pink to-electric-cyan rounded-full mb-4 animate-heartbeat">
-              <MessageCircle className="w-8 h-8 text-white" />
+      <div className="relative w-full px-0 pt-12 pb-6 text-center overflow-hidden">
+        {/* Hero Background Image - edge-to-edge */}
+        <div className="absolute left-0 top-0 w-screen h-full z-0">
+          <img
+            src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1920&q=80"
+            alt="Contact hero background"
+            className="w-full h-full object-cover object-center opacity-60"
+          />
+          {/* Gradient overlay for smooth blend */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/95" />
+        </div>
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="text-center mb-12 animate-fade-in">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-neon-pink to-electric-cyan rounded-full mb-6 animate-heartbeat shadow-lg">
+              <MessageCircle className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-neon-pink to-electric-cyan mb-3 leading-tight">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-neon-pink to-electric-cyan mb-6 md:mb-8 tracking-tight leading-tight">
               Get in Touch
             </h1>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto hidden md:block">
+            <p className="hidden md:block text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed md:leading-9 mb-2 md:mb-4">
               Have questions about blood donation? We're here to help you save lives.
             </p>
           </div>
+        </div>
+      </div>
 
+      <div className="relative z-10 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
           {/* Main Content - Single Row Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             {/* Contact Info - Compact Left Column */}
-            <div className="lg:col-span-2 space-y-4">
+            <div className="lg:col-span-2 space-y-6">
               {/* Emergency Contact */}
-              <Card className="glass-card border-red-500/20 bg-gradient-to-r from-red-500/10 to-red-600/10 hover:scale-105 transition-all duration-300">
+              <Card className="glass-card border-red-500/20 bg-gradient-to-r from-red-500/10 to-red-600/10 shadow-lg">
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -102,7 +114,7 @@ const Contact = () => {
               </Card>
 
               {/* Phone Support */}
-              <Card className="glass-card border-white/10 hover:scale-105 transition-all duration-300">
+              <Card className="glass-card border-white/10 shadow-lg">
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-gradient-to-r from-neon-pink to-electric-cyan rounded-lg flex items-center justify-center flex-shrink-0">
@@ -118,7 +130,7 @@ const Contact = () => {
               </Card>
 
               {/* Email Support */}
-              <Card className="glass-card border-white/10 hover:scale-105 transition-all duration-300">
+              <Card className="glass-card border-white/10 shadow-lg">
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-gradient-to-r from-electric-cyan to-neon-pink rounded-lg flex items-center justify-center flex-shrink-0">
@@ -134,7 +146,7 @@ const Contact = () => {
               </Card>
 
               {/* Location */}
-              <Card className="glass-card border-white/10 hover:scale-105 transition-all duration-300">
+              <Card className="glass-card border-white/10 shadow-lg">
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -150,7 +162,7 @@ const Contact = () => {
               </Card>
 
               {/* Hours */}
-              <Card className="glass-card border-white/10 hover:scale-105 transition-all duration-300">
+              <Card className="glass-card border-white/10 shadow-lg">
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -168,7 +180,7 @@ const Contact = () => {
 
             {/* Contact Form - Clean Right Column */}
             <div className="lg:col-span-3">
-              <Card className="glass-card border-white/10 animate-slide-up">
+              <Card className="glass-card border-white/10 shadow-xl animate-slide-up">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-2xl font-bold text-white mb-2 flex items-center">
                     <Send className="w-6 h-6 mr-3 text-neon-pink" />

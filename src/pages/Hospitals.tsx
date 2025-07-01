@@ -1,14 +1,15 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, MapPin, Phone, Clock, Star, Navigation, Heart, Users, Zap } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import ImageLoader from '../components/ImageLoader';
 
 const Hospitals = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('All');
+  const [loadingCards, setLoadingCards] = useState(true);
 
   const hospitalTypes = ['All', 'General', 'Emergency', 'Specialized', 'Children', 'Trauma Center', 'Government', 'Private'];
 
@@ -387,29 +388,43 @@ const Hospitals = () => {
     return 'text-red-400';
   };
 
+  useEffect(() => {
+    // Simulate loading for better UI
+    const timer = setTimeout(() => setLoadingCards(false), 900);
+    return () => clearTimeout(timer);
+  }, [searchTerm, selectedType]);
+
   return (
     <div className="min-h-screen bg-black">
-      {/* Minimal Background */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900/20 to-black" />
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-neon-pink/3 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-electric-cyan/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-      </div>
-
+      {/* SVG grid background */}
+      <svg className="absolute inset-0 w-full h-full opacity-10 mix-blend-overlay pointer-events-none z-0" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" strokeWidth="0.5" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
       <Navbar />
+      {/* Hero/Header Section */}
+      <div className="relative w-full px-0 pt-12 pb-10 flex items-center justify-center text-center overflow-hidden min-h-[180px] md:min-h-[220px]">
+        {/* Hero Background Image - edge-to-edge */}
+        <div className="absolute left-0 top-0 w-screen h-full z-0">
+          <img
+            src="https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&w=1920&q=80"
+            alt="Hospitals hero background"
+            className="w-full h-full object-cover object-center opacity-60"
+          />
+          {/* Gradient overlay for smooth blend */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/95" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-2 sm:px-4 lg:px-0 flex flex-col items-center justify-center w-full">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-neon-pink to-electric-cyan tracking-tight leading-tight mt-0 md:mt-16">Find Hospitals & Blood Banks</h1>
+        </div>
+      </div>
       
       <div className="relative z-10 pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12 animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-neon-pink to-electric-cyan mb-6">
-              Nearby Hospitals
-            </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto hidden md:block">
-              Find hospitals and medical centers in Guwahati, Assam with blood bank facilities
-            </p>
-          </div>
-
           {/* Search and Filters */}
           <div className="glass-card p-6 rounded-2xl mb-8 animate-slide-up bg-gray-900/40 border-white/10">
             <div className="flex flex-col md:flex-row gap-4 items-center">
@@ -444,127 +459,140 @@ const Hospitals = () => {
 
           {/* Hospital Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {filteredHospitals.map((hospital, index) => (
-              <div
-                key={hospital.id}
-                className="glass-card rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 animate-fade-in bg-gray-900/40 border-white/10"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="relative h-48">
-                  <img
-                    src={hospital.image}
-                    alt={hospital.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    <Badge className="bg-neon-pink text-white">
-                      {hospital.type}
-                    </Badge>
-                    {hospital.emergencyServices && (
-                      <Badge className="bg-red-500 text-white">
-                        <Zap className="w-3 h-3 mr-1" />
-                        Emergency
-                      </Badge>
-                    )}
-                  </div>
-                  <div className="absolute top-4 right-4">
-                    <div className="bg-background/80 backdrop-blur-sm rounded-lg px-3 py-1 flex items-center">
-                      <Star className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" />
-                      <span className="text-white font-medium">{hospital.rating}</span>
+            {loadingCards
+              ? Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="glass-card rounded-2xl overflow-hidden bg-gray-900/40 border-white/10 animate-pulse min-h-[320px]">
+                    <div className="h-48 bg-gray-800/40 w-full" />
+                    <div className="p-6 space-y-4">
+                      <div className="h-6 bg-gray-700/40 rounded w-2/3 mb-2" />
+                      <div className="h-4 bg-gray-700/30 rounded w-1/2 mb-2" />
+                      <div className="h-4 bg-gray-700/30 rounded w-1/3 mb-2" />
+                      <div className="h-4 bg-gray-700/20 rounded w-1/4 mb-2" />
+                      <div className="h-10 bg-gray-700/20 rounded w-full" />
                     </div>
                   </div>
-                </div>
-                
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-2xl font-bold text-white mb-2">
-                        {hospital.name}
-                      </h3>
-                      <div className="flex items-center text-gray-300 mb-1">
-                        <MapPin className="w-4 h-4 mr-2 text-neon-pink" />
-                        {hospital.address}
-                      </div>
-                      <div className="flex items-center text-gray-300">
-                        <Navigation className="w-4 h-4 mr-2 text-electric-cyan" />
-                        {hospital.distance} away
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Specialties */}
-                  <div className="mb-4">
-                    <h4 className="text-white font-medium mb-2">Specialties:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {hospital.specialties.map((specialty) => (
-                        <Badge
-                          key={specialty}
-                          variant="outline"
-                          className="border-electric-cyan/30 text-electric-cyan"
-                        >
-                          {specialty}
+                ))
+              : filteredHospitals.map((hospital, index) => (
+                  <div
+                    key={hospital.id}
+                    className="glass-card rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 animate-fade-in bg-gray-900/40 border-white/10"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <div className="relative h-48">
+                      <ImageLoader
+                        src={hospital.image}
+                        alt={hospital.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-4 left-4 flex gap-2">
+                        <Badge className="bg-neon-pink text-white">
+                          {hospital.type}
                         </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Hospital Stats */}
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="glass p-3 rounded-lg text-center bg-gray-800/30">
-                      <div className="flex items-center justify-center mb-1">
-                        <Users className="w-4 h-4 text-neon-pink mr-1" />
-                        <span className="text-neon-pink font-bold">{hospital.availableBeds}</span>
+                        {hospital.emergencyServices && (
+                          <Badge className="bg-red-500 text-white">
+                            <Zap className="w-3 h-3 mr-1" />
+                            Emergency
+                          </Badge>
+                        )}
                       </div>
-                      <div className="text-gray-400 text-sm">Available Beds</div>
-                    </div>
-                    <div className="glass p-3 rounded-lg text-center bg-gray-800/30">
-                      <div className="flex items-center justify-center mb-1">
-                        <Clock className="w-4 h-4 text-electric-cyan mr-1" />
-                        <span className="text-electric-cyan font-bold">{hospital.operatingHours}</span>
+                      <div className="absolute top-4 right-4">
+                        <div className="bg-background/80 backdrop-blur-sm rounded-lg px-3 py-1 flex items-center">
+                          <Star className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" />
+                          <span className="text-white font-medium">{hospital.rating}</span>
+                        </div>
                       </div>
-                      <div className="text-gray-400 text-sm">Operating Hours</div>
                     </div>
-                  </div>
-
-                  {/* Blood Availability */}
-                  {hospital.bloodBank && (
-                    <div className="mb-6">
-                      <h4 className="text-white font-medium mb-3 flex items-center">
-                        <Heart className="w-4 h-4 mr-2 text-neon-pink" fill="currentColor" />
-                        Blood Availability
-                      </h4>
-                      <div className="grid grid-cols-4 gap-2">
-                        {Object.entries(hospital.bloodUnitsAvailable).map(([type, count]) => (
-                          <div key={type} className="glass p-2 rounded text-center bg-gray-800/30">
-                            <div className="text-white font-bold">{type}</div>
-                            <div className={`text-sm font-medium ${getBloodAvailabilityColor(count)}`}>
-                              {count} units
-                            </div>
+                    
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h3 className="text-2xl font-bold text-white mb-2">
+                            {hospital.name}
+                          </h3>
+                          <div className="flex items-center text-gray-300 mb-1">
+                            <MapPin className="w-4 h-4 mr-2 text-neon-pink" />
+                            {hospital.address}
                           </div>
-                        ))}
+                          <div className="flex items-center text-gray-300">
+                            <Navigation className="w-4 h-4 mr-2 text-electric-cyan" />
+                            {hospital.distance} away
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Specialties */}
+                      <div className="mb-4">
+                        <h4 className="text-white font-medium mb-2">Specialties:</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {hospital.specialties.map((specialty) => (
+                            <Badge
+                              key={specialty}
+                              variant="outline"
+                              className="border-electric-cyan/30 text-electric-cyan"
+                            >
+                              {specialty}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Hospital Stats */}
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="glass p-3 rounded-lg text-center bg-gray-800/30">
+                          <div className="flex items-center justify-center mb-1">
+                            <Users className="w-4 h-4 text-neon-pink mr-1" />
+                            <span className="text-neon-pink font-bold">{hospital.availableBeds}</span>
+                          </div>
+                          <div className="text-gray-400 text-sm">Available Beds</div>
+                        </div>
+                        <div className="glass p-3 rounded-lg text-center bg-gray-800/30">
+                          <div className="flex items-center justify-center mb-1">
+                            <Clock className="w-4 h-4 text-electric-cyan mr-1" />
+                            <span className="text-electric-cyan font-bold">{hospital.operatingHours}</span>
+                          </div>
+                          <div className="text-gray-400 text-sm">Operating Hours</div>
+                        </div>
+                      </div>
+
+                      {/* Blood Availability */}
+                      {hospital.bloodBank && (
+                        <div className="mb-6">
+                          <h4 className="text-white font-medium mb-3 flex items-center">
+                            <Heart className="w-4 h-4 mr-2 text-neon-pink" fill="currentColor" />
+                            Blood Availability
+                          </h4>
+                          <div className="grid grid-cols-4 gap-2">
+                            {Object.entries(hospital.bloodUnitsAvailable).map(([type, count]) => (
+                              <div key={type} className="glass p-2 rounded text-center bg-gray-800/30">
+                                <div className="text-white font-bold">{type}</div>
+                                <div className={`text-sm font-medium ${getBloodAvailabilityColor(count)}`}>
+                                  {count} units
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Contact Actions */}
+                      <div className="flex space-x-3">
+                        <Button
+                          className="flex-1 bg-gradient-to-r from-neon-pink to-electric-cyan text-white"
+                        >
+                          <Phone className="w-4 h-4 mr-2" />
+                          Call Hospital
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="flex-1 border-electric-cyan/30 text-electric-cyan hover:bg-electric-cyan/10"
+                        >
+                          <Navigation className="w-4 h-4 mr-2" />
+                          Get Directions
+                        </Button>
                       </div>
                     </div>
-                  )}
-
-                  {/* Contact Actions */}
-                  <div className="flex space-x-3">
-                    <Button
-                      className="flex-1 bg-gradient-to-r from-neon-pink to-electric-cyan text-white"
-                    >
-                      <Phone className="w-4 h-4 mr-2" />
-                      Call Hospital
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="flex-1 border-electric-cyan/30 text-electric-cyan hover:bg-electric-cyan/10"
-                    >
-                      <Navigation className="w-4 h-4 mr-2" />
-                      Get Directions
-                    </Button>
                   </div>
-                </div>
-              </div>
-            ))}
+                ))}
           </div>
 
           {/* Empty State */}

@@ -32,13 +32,17 @@ const MeetTheCreator = () => {
           {/* Creator Photo Section */}
           <div className="flex justify-center lg:justify-end">
             <div className="relative">
-              <div className="w-56 h-72 md:w-72 md:h-96 bg-gradient-to-br from-gray-900/80 to-black/80 p-1 rounded-2xl overflow-hidden shadow-2xl border-2 border-red-500/20">
+              <div className="w-72 h-80 md:w-80 md:h-96 bg-gradient-to-br from-gray-900/80 to-black/80 p-1 rounded-2xl overflow-hidden shadow-2xl border-2 border-red-500/20">
                 <div className="w-full h-full rounded-xl overflow-hidden border border-red-500/10 bg-gray-900">
                   <img
                     src="/lovable-uploads/8ddba743-7775-41bb-8421-21504d01c737.png"
                     alt="Mausam Kar - App Creator"
                     className="w-full h-full object-cover"
                   />
+                  {/* Corner Icons */}
+                  <Heart className="absolute top-2 left-2 w-6 h-6 text-red-400 bg-black/60 rounded-full p-1 shadow-md" />
+                  <Code className="absolute top-2 right-2 w-6 h-6 text-cyan-400 bg-black/60 rounded-full p-1 shadow-md" />
+                  <Star className="absolute bottom-2 right-2 w-6 h-6 text-yellow-400 bg-black/60 rounded-full p-1 shadow-md" />
                 </div>
               </div>
             </div>

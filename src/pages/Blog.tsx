@@ -196,202 +196,81 @@ const Blog = () => {
   });
 
   return (
-    <div className="min-h-screen bg-black">
-      {/* Minimal Background */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900/20 to-black" />
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-neon-pink/3 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-electric-cyan/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-      </div>
-
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* SVG grid background */}
+      <svg className="absolute inset-0 w-full h-full opacity-10 mix-blend-overlay pointer-events-none z-0" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" strokeWidth="0.5" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
       <Navbar />
-      
-      <div className="relative z-10 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-8 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-neon-pink to-electric-cyan mb-3 leading-tight">
-              Explore Our Blog
-            </h1>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto hidden md:block">
-              Stay updated with the latest news, stories, and insights from Indian healthcare and blood donation community.
-            </p>
-          </div>
-
-          {/* Featured Articles */}
-          <div className="mb-12">
-            <div className="flex items-center mb-6">
-              <Star className="w-6 h-6 text-neon-pink mr-3" />
-              <h2 className="text-2xl font-bold text-white">Featured Articles</h2>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {featuredPosts.map((post, index) => (
-                <div
-                  key={`featured-${post.id}`}
-                  className="glass-card border-white/10 rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 animate-fade-in"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                    />
-                    <div className="absolute top-4 left-4 flex gap-2">
-                      <Badge className="bg-neon-pink/90 text-white">
-                        Featured
-                      </Badge>
-                      <Badge className="bg-electric-cyan/90 text-white">
-                        {post.category}
-                      </Badge>
+      {/* Hero/Header Section */}
+      <div className="relative w-full px-0 pt-20 pb-12 text-center overflow-hidden">
+        {/* Hero Background Image - edge-to-edge */}
+        <div className="absolute left-0 top-0 w-screen h-full z-0">
+          <img
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80"
+            alt="Blood donation hero background"
+            className="w-full h-full object-cover object-center opacity-60"
+          />
+          {/* Gradient overlay for smooth blend */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/95" />
                     </div>
-                  </div>
-
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-300 mb-4 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-
-                    <div className="flex items-center text-sm text-gray-400 mb-4">
-                      <User className="w-4 h-4 mr-1" />
-                      <span className="mr-4">{post.author}</span>
-                      <Calendar className="w-4 h-4 mr-1" />
-                      <span className="mr-4">{new Date(post.date).toLocaleDateString()}</span>
-                      <Clock className="w-4 h-4 mr-1" />
-                      <span>{post.readTime}</span>
-                    </div>
-
-                    <Link to={`/blog/${post.id}`}>
-                      <Button className="bg-gradient-to-r from-neon-pink to-electric-cyan text-white hover:scale-105 transition-all duration-300 w-full">
-                        Read Full Article
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </Button>
-                    </Link>
+        <div className="relative z-10 max-w-7xl mx-auto px-2 sm:px-4 lg:px-0">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-neon-pink to-electric-cyan mb-6 md:mb-8 tracking-tight leading-tight">Blood Bank Blog & Stories</h1>
+          <p className="hidden md:block text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed md:leading-9 mb-2 md:mb-4"></p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="glass-card border-white/10 p-6 rounded-2xl mb-8 animate-slide-up">
-            <h2 className="text-2xl font-bold text-white mb-4">More Articles</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-neon-pink" />
+      {/* Search & Filter Bar */}
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-4 mb-8 px-4 bg-gradient-to-r from-gray-900/80 to-black/80 rounded-xl p-4 border border-white/10 shadow-lg">
                 <Input
-                  placeholder="Search articles..."
+          type="text"
+          placeholder="Search blog posts..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 glass border-electric-cyan/20 focus:border-electric-cyan text-white"
-                />
-              </div>
-              
-              <Select onValueChange={setSelectedCategory}>
-                <SelectTrigger className="glass border-electric-cyan/20 text-white">
-                  <SelectValue placeholder="Select Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
+          onChange={e => setSearchTerm(e.target.value)}
+          className="flex-1 bg-black/60 border border-white/10 text-white placeholder-gray-400"
+        />
+        <div className="flex flex-wrap gap-2">
+          {categories.map(category => (
+            <Badge
+              key={category}
+              variant={selectedCategory === category ? 'default' : 'outline'}
+              onClick={() => setSelectedCategory(category)}
+              className={`cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${selectedCategory === category ? 'bg-red-500 text-white' : 'bg-black/40 text-gray-300 border border-white/10 hover:bg-red-500/20 hover:text-white'}`}
+            >
                       {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Button 
-                onClick={() => {
-                  setSearchTerm('');
-                  setSelectedCategory('');
-                }}
-                className="bg-gradient-to-r from-neon-pink to-electric-cyan text-white"
-              >
-                <Search className="w-4 h-4 mr-2" />
-                Clear Filters
-              </Button>
+            </Badge>
+          ))}
             </div>
           </div>
-
-          {/* Regular Blog Posts Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post, index) => (
-              <div
-                key={post.id}
-                className="glass-card border-white/10 rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300 animate-fade-in"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-neon-pink/90 text-white">
-                      {post.category}
-                    </Badge>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-white mb-3 line-clamp-2">
-                    {post.title}
-                  </h3>
-                  <p className="text-gray-300 mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-
-                  <div className="flex items-center text-sm text-gray-400 mb-4">
-                    <User className="w-4 h-4 mr-1" />
-                    <span className="mr-4">{post.author}</span>
-                    <Calendar className="w-4 h-4 mr-1" />
-                    <span className="mr-4">{new Date(post.date).toLocaleDateString()}</span>
-                    <Clock className="w-4 h-4 mr-1" />
-                    <span>{post.readTime}</span>
-                  </div>
-
-                  <Link to={`/blog/${post.id}`}>
-                    <Button className="bg-gradient-to-r from-neon-pink to-electric-cyan text-white hover:scale-105 transition-all duration-300 w-full">
-                      Read More
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </Link>
-                </div>
+      {/* Blog Grid */}
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 px-0 pb-16">
+        {filteredPosts.length === 0 ? (
+          <div className="col-span-full text-center text-gray-400 text-lg py-16">No blog posts found.</div>
+        ) : (
+          filteredPosts.map(post => (
+            <div key={post.id} className="bg-gradient-to-br from-gray-900/90 to-black/90 rounded-2xl shadow-xl border border-white/10 p-5 md:p-10 flex flex-col gap-4 hover:border-red-500/40 hover:shadow-red-500/10 transition-all duration-300">
+              <img src={post.image} alt={post.title} className="w-full h-56 md:h-80 object-cover rounded-xl mb-3 border-2 border-white/10" />
+              <div className="flex flex-wrap gap-2 mb-2">
+                <Badge className="bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1 rounded-full text-xs font-semibold">{post.category}</Badge>
+                {post.tags.map((tag, i) => (
+                  <Badge key={i} className="bg-black/40 text-gray-300 border border-white/10 px-3 py-1 rounded-full text-xs font-medium">{tag}</Badge>
+                ))}
               </div>
-            ))}
-          </div>
-
-          {/* Empty State */}
-          {filteredPosts.length === 0 && (
-            <div className="text-center py-16 animate-fade-in">
-              <div className="max-w-md mx-auto">
-                <div className="w-20 h-20 bg-neon-pink/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Calendar className="w-10 h-10 text-neon-pink" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-4">
-                  No Articles Found
-                </h3>
-                <p className="text-gray-300 text-lg mb-6 leading-relaxed">
-                  We couldn't find any articles matching your criteria. 
-                  Try adjusting your search or filter settings to discover more content.
-                </p>
-                <Button 
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedCategory('');
-                  }}
-                  className="bg-gradient-to-r from-neon-pink to-electric-cyan text-white px-6 py-3 rounded-lg hover:scale-105 transition-all duration-300"
-                >
-                  Clear All Filters
-                </Button>
+              <h2 className="text-xl md:text-3xl font-bold text-white mb-1">{post.title}</h2>
+              <p className="hidden md:block text-gray-300 mb-2 text-lg md:text-xl leading-relaxed italic">{post.excerpt}</p>
+              <div className="flex items-center gap-4 text-gray-400 text-sm mt-2">
+                <span className="flex items-center gap-1"><User className="w-4 h-4" /> {post.author}</span>
+                <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {post.date}</span>
+                <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {post.readTime}</span>
               </div>
+              <Link to={`/blog/${post.id}`} className="mt-2 text-red-400 hover:underline font-medium self-start">Read More</Link>
             </div>
+          ))
           )}
-        </div>
       </div>
     </div>
   );
