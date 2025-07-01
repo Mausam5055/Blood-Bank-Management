@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState } from 'react';
 import { Heart, Users, Calendar, Award } from 'lucide-react';
 
@@ -100,9 +99,22 @@ const DonorStats = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-12 md:py-20 bg-gradient-to-b from-black to-gray-900"
+      className="py-12 md:py-20 bg-gradient-to-b from-black via-gray-900/90 to-black relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* SVG grid background */}
+      <div className="absolute inset-0 z-0">
+        <svg className="absolute inset-0 w-full h-full opacity-10 mix-blend-overlay pointer-events-none" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" strokeWidth="0.5" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+        <div className="absolute top-10 left-10 w-64 h-64 bg-red-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 right-10 w-64 h-64 bg-cyan-400/10 rounded-full blur-3xl" />
+      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-8 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
             Our Impact in Numbers
@@ -117,7 +129,7 @@ const DonorStats = () => {
           {stats.map((stat, index) => (
             <div
               key={stat.label}
-              className={`text-center p-4 md:p-8 backdrop-blur-sm bg-white/5 rounded-xl md:rounded-2xl border border-white/10 transform transition-all duration-500 hover:scale-105 hover:bg-white/10 ${
+              className={`text-center p-4 md:p-8 backdrop-blur-sm bg-gradient-to-br from-gray-900/80 to-black/80 rounded-xl md:rounded-2xl border border-white/10 transition-all duration-500 ${
                 isVisible ? 'animate-fade-in' : 'opacity-0'
               }`}
               style={{ animationDelay: `${index * 200}ms` }}
