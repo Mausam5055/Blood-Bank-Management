@@ -5,13 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Heart, Calendar, Award, Edit, Download, Bell, MapPin, Save, User, Droplets, Trash2, Phone } from 'lucide-react';
+import { Heart, Calendar, Award, Edit, Download, Bell, MapPin, Save, User, Droplets, Trash2, Phone, Copy } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import ProfilePhotoUpload from '../components/ProfilePhotoUpload';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import ImageLoader from '../components/ImageLoader';
 
 interface UserProfile {
   id: string;
@@ -56,6 +57,28 @@ const UserDashboard = () => {
     full_name: '',
     avatar_url: '',
   });
+
+  // Blood donation tips for sidebar
+  const tips = [
+    "Stay hydrated before donating blood for a smoother experience.",
+    "Eat a healthy meal before your donation—avoid fatty foods.",
+    "After donating, rest for a few minutes and enjoy a snack.",
+    "You can donate blood every 56 days—set a reminder!",
+    "Bring a friend to donate together and double your impact.",
+    "Donating blood can help lower harmful iron stores in your body.",
+    "Wear comfortable clothing with sleeves that can be rolled up.",
+    "Let the staff know if you feel unwell at any point during donation.",
+    "Your single donation can save up to three lives!",
+    "Share your donation story to inspire others."
+  ];
+  const [tipIndex, setTipIndex] = useState(Math.floor(Math.random() * tips.length));
+  const handleNewTip = () => {
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * tips.length);
+    } while (newIndex === tipIndex);
+    setTipIndex(newIndex);
+  };
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -291,38 +314,62 @@ const UserDashboard = () => {
   const phone = user.user_metadata?.phone || 'Not provided';
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
+      {/* Hero Image Section - Improved Classic Design */}
+      <div className="relative w-full h-40 sm:h-56 lg:h-72 mb-8 overflow-hidden flex items-center justify-center">
+        <img
+          src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+          alt="Blood donation hero background"
+          className="w-full h-full object-cover absolute inset-0 z-0"
+        />
+        {/* Gradient and dark overlays for depth and readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/95 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-neon-pink/10 via-transparent to-electric-cyan/10 z-20" />
+        <div className="relative z-30 flex flex-col items-center justify-center w-full h-full text-center px-4 pt-16 sm:pt-0">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-2 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] tracking-tight" style={{textShadow: '0 2px 12px #000, 0 0px 2px #000'}}> 
+            Welcome back, <span className="text-neon-pink">{displayName}</span>!
+          </h1>
+          <p className="hidden sm:block text-lg sm:text-xl text-white/80 max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+           
+          </p>
+        </div>
+      </div>
       <Navbar />
-      
-      <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="pt-8 pb-20 px-2 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="mb-8 animate-fade-in">
-            <h1 className="text-4xl font-bold text-white mb-2">
-              Welcome back, {displayName}!
-            </h1>
-            <p className="text-xl text-white/70">
-              Thank you for being a life-saving hero
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* (Header moved to hero image section) */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-2 space-y-10">
               {/* Profile Overview */}
-              <div className="backdrop-blur-lg bg-white/5 border border-white/10 shadow-xl p-6 rounded-2xl animate-slide-up">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center space-x-4">
-                    <ProfilePhotoUpload 
-                      currentPhotoUrl={profile?.avatar_url || undefined}
-                      onPhotoUpdated={handlePhotoUpdated}
-                    />
+              <div className="relative group bg-gradient-to-br from-white/10 to-black/30 border border-white/10 shadow-2xl p-8 rounded-3xl transition-all duration-300 hover:shadow-neon-pink/30 animate-slide-up">
+                <div className="flex items-start justify-between mb-8">
+                  <div className="flex items-center space-x-6">
+                    <div className="relative">
+                      <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 border-2 border-black rounded-full animate-pulse z-10" title="Active"></span>
+                      <div className="rounded-full ring-4 ring-neon-pink/40 p-1 bg-black">
+                        <ProfilePhotoUpload 
+                          currentPhotoUrl={profile?.avatar_url || undefined}
+                          onPhotoUpdated={handlePhotoUpdated}
+                        />
+                      </div>
+                    </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-white">
+                      <h2 className="text-3xl font-bold text-white flex items-center gap-2">
                         {displayName}
                       </h2>
-                      <p className="text-white/60">{user.email}</p>
-                      <div className="flex items-center text-white/60 text-sm">
+                      <div className="flex items-center gap-2 text-white/70">
+                        <span>{user.email}</span>
+                        <button
+                          className="ml-1 p-1 rounded hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-neon-pink"
+                          title="Copy email"
+                          onClick={() => {navigator.clipboard.writeText(user.email); toast({title: 'Copied!', description: 'Email copied to clipboard.'});}}
+                        >
+                          <Copy className="w-4 h-4 text-white/50" />
+                        </button>
+                      </div>
+                      <div className="flex items-center text-white/60 text-sm mt-1">
                         <Calendar className="w-4 h-4 mr-1" />
                         Member since {memberSince}
                       </div>
@@ -332,7 +379,7 @@ const UserDashboard = () => {
                     variant="outline" 
                     size="sm" 
                     onClick={() => editing ? handleSaveProfile() : setEditing(!editing)}
-                    className="border-neon-pink/30 text-white hover:bg-neon-pink/10"
+                    className="border-neon-pink/30 text-white hover:bg-neon-pink/10 transition-colors duration-200"
                   >
                     {editing ? (
                       <>
@@ -347,7 +394,6 @@ const UserDashboard = () => {
                     )}
                   </Button>
                 </div>
-
                 {editing ? (
                   <div className="space-y-4">
                     <div>
@@ -372,9 +418,9 @@ const UserDashboard = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="text-center p-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-xl">
-                      <Heart className="w-8 h-8 mx-auto mb-2 text-neon-pink" fill="currentColor" />
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                    <div className="text-center p-5 bg-gradient-to-br from-neon-pink/10 to-black/30 border border-neon-pink/20 rounded-2xl shadow-md transition-transform duration-200 group-hover:scale-105">
+                      <Heart className="w-8 h-8 mx-auto mb-2 text-neon-pink animate-pulse" fill="currentColor" />
                       <div className="text-2xl font-bold text-neon-pink">
                         {bloodGroup}
                       </div>
@@ -382,19 +428,18 @@ const UserDashboard = () => {
                         Blood Group
                       </div>
                     </div>
-                    
-                    <div className="text-center p-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-xl">
-                      <User className="w-8 h-8 mx-auto mb-2 text-neon-pink" />
-                      <div className="text-lg font-bold text-neon-pink">
+                    <div className="text-center p-5 bg-gradient-to-br from-electric-cyan/10 to-black/30 border border-electric-cyan/20 rounded-2xl shadow-md">
+                      <User className="w-8 h-8 mx-auto mb-2 text-electric-cyan animate-bounce" />
+                      <div className="text-lg font-bold text-electric-cyan">
                         Active
                       </div>
                       <div className="text-sm text-white/60">
                         Status
                       </div>
                     </div>
-                    
-                    <div className="text-center p-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-xl">
-                      <div className="text-lg font-bold text-neon-pink">
+                    <div className="text-center p-5 bg-gradient-to-br from-white/10 to-black/30 border border-white/20 rounded-2xl shadow-md">
+                      <Phone className="w-8 h-8 mx-auto mb-2 text-white/60" />
+                      <div className="text-lg font-bold text-white">
                         {phone}
                       </div>
                       <div className="text-sm text-white/60">
@@ -406,39 +451,38 @@ const UserDashboard = () => {
               </div>
 
               {/* Event Registrations */}
-              <div className="backdrop-blur-lg bg-white/5 border border-white/10 shadow-xl p-6 rounded-2xl animate-slide-up">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                  <Calendar className="w-5 h-5 mr-2 text-neon-pink" />
+              <div className="bg-gradient-to-br from-white/10 to-black/30 border border-white/10 shadow-xl p-8 rounded-3xl animate-slide-up transition-all duration-300 hover:shadow-electric-cyan/30">
+                <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                  <Calendar className="w-6 h-6 text-electric-cyan" />
                   Your Event Registrations
                 </h3>
-                
                 {eventRegistrations.length === 0 ? (
-                  <div className="text-center py-8">
-                    <Calendar className="w-12 h-12 text-white/20 mx-auto mb-4" />
-                    <p className="text-white/60 mb-4">You haven't registered for any events yet.</p>
+                  <div className="text-center py-10">
+                    <Calendar className="w-14 h-14 text-white/20 mx-auto mb-4" />
+                    <p className="text-white/70 mb-4 text-lg">You haven't registered for any events yet.</p>
                     <Button 
                       onClick={() => navigate('/events')}
-                      className="bg-gradient-to-r from-neon-pink to-electric-cyan text-white"
+                      className="bg-gradient-to-r from-neon-pink to-electric-cyan text-white shadow-md hover:scale-105 transition-transform"
                     >
                       Browse Events
                     </Button>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {eventRegistrations.map((registration) => (
-                      <div key={registration.id} className="p-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg">
+                      <div key={registration.id} className="p-5 bg-white/5 border border-white/10 rounded-2xl shadow-md hover:shadow-electric-cyan/20 transition-shadow">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <div className="flex items-center mb-2">
-                              <h4 className="font-medium text-white">{registration.event_title}</h4>
+                            <div className="flex items-center mb-2 gap-2">
+                              <h4 className="font-semibold text-white text-lg">{registration.event_title}</h4>
                               <Badge 
                                 variant="secondary" 
-                                className="ml-2 bg-green-900/30 text-green-400 border-green-400/20"
+                                className="bg-green-900/30 text-green-400 border-green-400/20"
                               >
                                 {registration.status}
                               </Badge>
                             </div>
-                            <div className="text-sm text-white/60 space-y-1">
+                            <div className="text-sm text-white/70 space-y-1">
                               <div className="flex items-center">
                                 <Calendar className="w-3 h-3 mr-1" />
                                 {new Date(registration.event_date).toLocaleDateString()}
@@ -472,37 +516,36 @@ const UserDashboard = () => {
               </div>
 
               {/* User's Blood Requests */}
-              <div className="backdrop-blur-lg bg-white/5 border border-white/10 shadow-xl p-6 rounded-2xl animate-slide-up">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                  <Droplets className="w-5 h-5 mr-2 text-neon-pink" />
+              <div className="bg-gradient-to-br from-white/10 to-black/30 border border-white/10 shadow-xl p-8 rounded-3xl animate-slide-up transition-all duration-300 hover:shadow-neon-pink/30">
+                <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                  <Droplets className="w-6 h-6 text-neon-pink" />
                   Your Blood Requests
                 </h3>
-                
                 {userRequests.length === 0 ? (
-                  <div className="text-center py-8">
-                    <Droplets className="w-12 h-12 text-white/20 mx-auto mb-4" />
-                    <p className="text-white/60 mb-4">You haven't submitted any blood requests yet.</p>
+                  <div className="text-center py-10">
+                    <Droplets className="w-14 h-14 text-white/20 mx-auto mb-4" />
+                    <p className="text-white/70 mb-4 text-lg">You haven't submitted any blood requests yet.</p>
                     <Button 
                       onClick={() => navigate('/request-form')}
-                      className="bg-gradient-to-r from-neon-pink to-electric-cyan text-white"
+                      className="bg-gradient-to-r from-neon-pink to-electric-cyan text-white shadow-md hover:scale-105 transition-transform"
                     >
                       Submit a Request
                     </Button>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {userRequests.map((request) => (
-                      <div key={request.id} className="p-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg">
+                      <div key={request.id} className="p-5 bg-white/5 border border-white/10 rounded-2xl shadow-md hover:shadow-neon-pink/20 transition-shadow">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <div className="flex items-center mb-2">
-                              <h4 className="font-medium text-white">{request.name}</h4>
-                              <Badge className="ml-2 bg-red-900/30 text-red-400 border-red-400/20">
+                            <div className="flex items-center mb-2 gap-2">
+                              <h4 className="font-semibold text-white text-lg">{request.name}</h4>
+                              <Badge className="bg-red-900/30 text-red-400 border-red-400/20">
                                 Needs {request.blood_group_needed}
                               </Badge>
                               <Badge 
                                 variant="secondary" 
-                                className={`ml-2 ${
+                                className={`$ {
                                   request.status === 'active' 
                                     ? 'bg-green-900/30 text-green-400 border-green-400/20' 
                                     : 'bg-gray-900/30 text-gray-400 border-gray-400/20'
@@ -511,7 +554,7 @@ const UserDashboard = () => {
                                 {request.status}
                               </Badge>
                             </div>
-                            <div className="text-sm text-white/60 space-y-1">
+                            <div className="text-sm text-white/70 space-y-1">
                               <div className="flex items-center">
                                 <MapPin className="w-3 h-3 mr-1" />
                                 {request.location}
@@ -526,7 +569,7 @@ const UserDashboard = () => {
                               </div>
                             </div>
                             {request.message && (
-                              <p className="text-sm text-white/70 mt-2 italic">"{request.message}"</p>
+                              <p className="text-sm text-white/80 mt-2 italic">"{request.message}"</p>
                             )}
                           </div>
                           <Button
@@ -545,30 +588,30 @@ const UserDashboard = () => {
               </div>
 
               {/* Account Information */}
-              <div className="backdrop-blur-lg bg-white/5 border border-white/10 shadow-xl p-6 rounded-2xl animate-slide-up">
-                <h3 className="text-xl font-semibold text-white mb-4">
+              <div className="bg-gradient-to-br from-white/10 to-black/30 border border-white/10 shadow-xl p-8 rounded-3xl animate-slide-up">
+                <h3 className="text-2xl font-bold text-white mb-6">
                   Account Information
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center p-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg">
+                  <div className="flex justify-between items-center p-5 bg-white/5 border border-white/10 rounded-2xl">
                     <div>
                       <div className="font-medium text-white">Email</div>
-                      <div className="text-sm text-white/60">{user.email}</div>
+                      <div className="text-sm text-white/70">{user.email}</div>
                     </div>
                     <Badge variant="secondary" className="bg-green-900/30 text-green-400 border-green-400/20">
                       Verified
                     </Badge>
                   </div>
-                  <div className="flex justify-between items-center p-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg">
+                  <div className="flex justify-between items-center p-5 bg-white/5 border border-white/10 rounded-2xl">
                     <div>
                       <div className="font-medium text-white">Account Created</div>
-                      <div className="text-sm text-white/60">{memberSince}</div>
+                      <div className="text-sm text-white/70">{memberSince}</div>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center p-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg">
+                  <div className="flex justify-between items-center p-5 bg-white/5 border border-white/10 rounded-2xl">
                     <div>
                       <div className="font-medium text-white">Last Updated</div>
-                      <div className="text-sm text-white/60">
+                      <div className="text-sm text-white/70">
                         {profile?.updated_at ? new Date(profile.updated_at).toLocaleDateString() : 'Never'}
                       </div>
                     </div>
@@ -578,86 +621,78 @@ const UserDashboard = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-8">
+            <div className="space-y-10">
               {/* Quick Actions */}
-              <div className="backdrop-blur-lg bg-white/5 border border-white/10 shadow-xl p-6 rounded-2xl animate-fade-in">
-                <h3 className="text-xl font-semibold text-white mb-4">
+              <div className="bg-gradient-to-br from-white/10 to-black/30 border border-white/10 shadow-xl p-8 rounded-3xl animate-fade-in">
+                <h3 className="text-2xl font-bold text-white mb-6">
                   Quick Actions
                 </h3>
-                <div className="space-y-3">
+                <div className="grid grid-cols-1 gap-3">
                   <Button 
                     onClick={() => navigate('/donate-form')}
-                    className="w-full bg-gradient-to-r from-neon-pink to-electric-cyan text-white hover:opacity-90"
+                    className="w-full bg-gradient-to-r from-neon-pink to-electric-cyan text-white hover:from-neon-pink hover:to-electric-cyan hover:text-white shadow-md flex items-center gap-2 transition-colors duration-200"
                   >
-                    <Heart className="w-4 h-4 mr-2" />
+                    <Heart className="w-4 h-4" />
                     Become a Donor
                   </Button>
                   <Button 
                     onClick={() => navigate('/request-form')}
                     variant="outline" 
-                    className="w-full border-neon-pink/30 text-white hover:bg-neon-pink/10"
+                    className="w-full border-neon-pink/30 text-white hover:bg-neon-pink/20 hover:text-white flex items-center gap-2 transition-colors duration-200"
                   >
-                    <Droplets className="w-4 h-4 mr-2" />
+                    <Droplets className="w-4 h-4" />
                     Request Blood
                   </Button>
                   <Button 
                     onClick={() => navigate('/events')}
                     variant="outline" 
-                    className="w-full border-electric-cyan/30 text-white hover:bg-electric-cyan/10"
+                    className="w-full border-electric-cyan/30 text-white hover:bg-electric-cyan/20 hover:text-white flex items-center gap-2 transition-colors duration-200"
                   >
-                    <Calendar className="w-4 h-4 mr-2" />
+                    <Calendar className="w-4 h-4" />
                     Browse Events
                   </Button>
                   <Button 
                     onClick={() => navigate('/requests')}
                     variant="outline" 
-                    className="w-full border-electric-cyan/30 text-white hover:bg-electric-cyan/10"
+                    className="w-full border-electric-cyan/30 text-white hover:bg-electric-cyan/20 hover:text-white flex items-center gap-2 transition-colors duration-200"
                   >
-                    <Bell className="w-4 h-4 mr-2" />
+                    <Bell className="w-4 h-4" />
                     View All Requests
                   </Button>
                   <Button 
                     onClick={() => navigate('/donors')}
                     variant="outline" 
-                    className="w-full border-electric-cyan/30 text-white hover:bg-electric-cyan/10"
+                    className="w-full border-electric-cyan/30 text-white hover:bg-electric-cyan/20 hover:text-white flex items-center gap-2 transition-colors duration-200"
                   >
-                    <User className="w-4 h-4 mr-2" />
+                    <User className="w-4 h-4" />
                     View All Donors
                   </Button>
                 </div>
               </div>
-
-              {/* Profile Completion */}
-              <div className="backdrop-blur-lg bg-white/5 border border-white/10 shadow-xl p-6 rounded-2xl animate-fade-in">
-                <h3 className="text-xl font-semibold text-white mb-4">
-                  Profile Completion
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-white/60">Complete your profile</span>
-                    <span className="text-white/60">85%</span>
-                  </div>
-                  <Progress value={85} className="h-2" />
-                  <p className="text-sm text-white/60">
-                    Add more information to help others connect with you
-                  </p>
-                </div>
-              </div>
-
               {/* Community Stats */}
-              <div className="backdrop-blur-lg bg-white/5 border border-white/10 shadow-xl p-6 rounded-2xl animate-fade-in">
-                <h3 className="text-xl font-semibold text-white mb-4">
+              <div className="bg-gradient-to-br from-white/10 to-black/30 border border-white/10 shadow-xl p-8 rounded-3xl animate-fade-in">
+                <h3 className="text-2xl font-bold text-white mb-6">
                   Community Impact
                 </h3>
                 <div className="space-y-4">
-                  <div className="text-center p-3 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg">
-                    <div className="text-2xl font-bold text-neon-pink">25,000+</div>
-                    <div className="text-sm text-white/60">Lives Saved</div>
+                  <div className="text-center p-4 bg-white/5 border border-white/10 rounded-2xl">
+                    <div className="text-3xl font-extrabold text-neon-pink">25,000+</div>
+                    <div className="text-base text-white/70">Lives Saved</div>
                   </div>
-                  <div className="text-center p-3 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg">
-                    <div className="text-2xl font-bold text-electric-cyan">15,000+</div>
-                    <div className="text-sm text-white/60">Active Donors</div>
+                  <div className="text-center p-4 bg-white/5 border border-white/10 rounded-2xl">
+                    <div className="text-3xl font-extrabold text-electric-cyan">15,000+</div>
+                    <div className="text-base text-white/70">Active Donors</div>
                   </div>
+                </div>
+              </div>
+              {/* Unique Interactive Tip Generator for Desktop Sidebar */}
+              <div className="hidden lg:block bg-gradient-to-br from-electric-cyan/10 to-neon-pink/10 border border-white/10 shadow-xl p-8 rounded-3xl animate-fade-in">
+                <div className="flex flex-col items-center text-center gap-4">
+                  <h4 className="text-xl font-bold text-electric-cyan">Blood Donation Tip</h4>
+                  <p className="text-white/90 text-base min-h-[60px]">{tips[tipIndex]}</p>
+                  <button onClick={handleNewTip} className="mt-2 px-4 py-2 bg-neon-pink/80 hover:bg-neon-pink text-white rounded-full font-semibold shadow transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-electric-cyan/40">
+                    New Tip
+                  </button>
                 </div>
               </div>
             </div>
