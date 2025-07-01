@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +10,7 @@ import Navbar from '../components/Navbar';
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const categories = ['Medical Science', 'Community Stories', 'Health Tips', 'Donation Process', 'Indian Healthcare', 'Regional Updates', 'Emergency Response', 'Blood Types', 'Nutrition'];
 
@@ -195,6 +196,11 @@ const Blog = () => {
     return matchesSearch && matchesCategory;
   });
 
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 900);
+    return () => clearTimeout(timer);
+  }, [searchTerm, selectedCategory]);
+
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
       {/* SVG grid background */}
@@ -248,7 +254,18 @@ const Blog = () => {
           </div>
       {/* Blog Grid */}
       <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 px-0 pb-16">
-        {filteredPosts.length === 0 ? (
+        {loading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="bg-gradient-to-br from-gray-900/90 to-black/90 rounded-2xl shadow-xl border border-white/10 p-5 md:p-10 flex flex-col gap-4 animate-pulse min-h-[350px]">
+              <div className="w-full h-56 md:h-80 bg-gray-800/40 rounded-xl mb-3" />
+              <div className="h-6 bg-gray-700/40 rounded w-2/3 mb-2" />
+              <div className="h-4 bg-gray-700/30 rounded w-1/2 mb-2" />
+              <div className="h-4 bg-gray-700/30 rounded w-1/3 mb-2" />
+              <div className="h-4 bg-gray-700/20 rounded w-1/4 mb-2" />
+              <div className="h-10 bg-gray-700/20 rounded w-full" />
+            </div>
+          ))
+        ) : filteredPosts.length === 0 ? (
           <div className="col-span-full text-center text-gray-400 text-lg py-16">No blog posts found.</div>
         ) : (
           filteredPosts.map(post => (
@@ -270,7 +287,7 @@ const Blog = () => {
               <Link to={`/blog/${post.id}`} className="mt-2 text-red-400 hover:underline font-medium self-start">Read More</Link>
             </div>
           ))
-          )}
+        )}
       </div>
     </div>
   );

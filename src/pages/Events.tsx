@@ -24,7 +24,7 @@ const Events = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedState, setSelectedState] = useState('All');
   const [userRegistrations, setUserRegistrations] = useState<EventRegistration[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showHostForm, setShowHostForm] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -222,6 +222,12 @@ const Events = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 900);
+    return () => clearTimeout(timer);
+  }, [searchTerm, selectedState]);
+
   const fetchUserRegistrations = async () => {
     try {
       const { data, error } = await supabase
@@ -231,8 +237,12 @@ const Events = () => {
 
       if (error) throw error;
       setUserRegistrations(data || []);
-    } catch (error: any) {
-      console.error('Error fetching registrations:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error fetching registrations:', error.message);
+      } else {
+        console.error('Error fetching registrations:', String(error));
+      }
     }
   };
 
@@ -286,8 +296,12 @@ const Events = () => {
         title: "Success!",
         description: `You've successfully registered for ${event.title}`,
       });
-    } catch (error: any) {
-      console.error('Error registering for event:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error registering for event:', error.message);
+      } else {
+        console.error('Error registering for event:', String(error));
+      }
       toast({
         title: "Error",
         description: "Failed to register for event. Please try again.",
@@ -383,163 +397,182 @@ const Events = () => {
 
           {/* Events Grid */}
           <div className="space-y-8">
-            {filteredEvents.map((event, index) => (
-              <div
-                key={event.id}
-                className="glass-card rounded-2xl overflow-hidden hover:scale-[1.02] transition-all duration-300 animate-fade-in bg-gray-900/40 border-white/10"
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <div className="md:flex">
-                  {/* Event Image */}
-                  <div className="md:w-1/3">
-                    <div
-                      className="h-64 md:h-full bg-cover bg-center relative"
-                      style={{ backgroundImage: `url(${event.image})` }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-neon-pink/20 to-electric-cyan/20" />
-                      
-                      {/* Status Badge */}
-                      <div className="absolute top-4 left-4">
-                        <Badge
-                          className={`${
-                            event.status === 'urgent'
-                              ? 'bg-red-500 text-white animate-pulse'
-                              : 'bg-neon-pink text-white'
-                          }`}
-                        >
-                          {event.status === 'urgent' ? 'URGENT' : 'UPCOMING'}
-                        </Badge>
-                      </div>
-
-                      {/* Registration Status */}
-                      {isEventRegistered(event.id) && (
-                        <div className="absolute top-4 right-4">
-                          <Badge className="bg-green-500 text-white">
-                            Registered
-                          </Badge>
-                        </div>
-                      )}
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="glass-card rounded-2xl overflow-hidden bg-gray-900/40 border-white/10 animate-pulse min-h-[320px]">
+                  <div className="md:flex">
+                    <div className="md:w-1/3">
+                      <div className="h-64 md:h-full bg-gray-800/40 w-full" />
+                    </div>
+                    <div className="md:w-2/3 p-8">
+                      <div className="h-8 bg-gray-700/40 rounded w-2/3 mb-4" />
+                      <div className="h-4 bg-gray-700/30 rounded w-1/2 mb-2" />
+                      <div className="h-4 bg-gray-700/30 rounded w-1/3 mb-2" />
+                      <div className="h-4 bg-gray-700/20 rounded w-1/4 mb-2" />
+                      <div className="h-10 bg-gray-700/20 rounded w-full mt-6" />
                     </div>
                   </div>
+                </div>
+              ))
+            ) : (
+              filteredEvents.map((event, index) => (
+                <div
+                  key={event.id}
+                  className="glass-card rounded-2xl overflow-hidden hover:scale-[1.02] transition-all duration-300 animate-fade-in bg-gray-900/40 border-white/10"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="md:flex">
+                    {/* Event Image */}
+                    <div className="md:w-1/3">
+                      <div
+                        className="h-64 md:h-full bg-cover bg-center relative"
+                        style={{ backgroundImage: `url(${event.image})` }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-neon-pink/20 to-electric-cyan/20" />
+                        
+                        {/* Status Badge */}
+                        <div className="absolute top-4 left-4">
+                          <Badge
+                            className={`${
+                              event.status === 'urgent'
+                                ? 'bg-red-500 text-white animate-pulse'
+                                : 'bg-neon-pink text-white'
+                            }`}
+                          >
+                            {event.status === 'urgent' ? 'URGENT' : 'UPCOMING'}
+                          </Badge>
+                        </div>
 
-                  {/* Event Details */}
-                  <div className="md:w-2/3 p-8">
-                    <div className="flex flex-col h-full">
-                      {/* Header */}
-                      <div className="mb-6">
-                        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                          {event.title}
-                        </h2>
-                        <p className="text-gray-300 leading-relaxed">
-                          {event.description}
-                        </p>
+                        {/* Registration Status */}
+                        {isEventRegistered(event.id) && (
+                          <div className="absolute top-4 right-4">
+                            <Badge className="bg-green-500 text-white">
+                              Registered
+                            </Badge>
+                          </div>
+                        )}
                       </div>
+                    </div>
 
-                      {/* Event Info */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div className="flex items-center text-gray-300">
-                          <Calendar className="w-5 h-5 mr-3 text-neon-pink" />
-                          <div>
-                            <div className="font-medium text-white">
-                              {new Date(event.date).toLocaleDateString('en-US', {
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                              })}
+                    {/* Event Details */}
+                    <div className="md:w-2/3 p-8">
+                      <div className="flex flex-col h-full">
+                        {/* Header */}
+                        <div className="mb-6">
+                          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                            {event.title}
+                          </h2>
+                          <p className="text-gray-300 leading-relaxed">
+                            {event.description}
+                          </p>
+                        </div>
+
+                        {/* Event Info */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                          <div className="flex items-center text-gray-300">
+                            <Calendar className="w-5 h-5 mr-3 text-neon-pink" />
+                            <div>
+                              <div className="font-medium text-white">
+                                {new Date(event.date).toLocaleDateString('en-US', {
+                                  weekday: 'long',
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}
+                              </div>
+                              <div className="text-sm text-gray-400">
+                                {event.time}
+                              </div>
                             </div>
-                            <div className="text-sm text-gray-400">
-                              {event.time}
+                          </div>
+
+                          <div className="flex items-center text-gray-300">
+                            <MapPin className="w-5 h-5 mr-3 text-neon-pink" />
+                            <div>
+                              <div className="font-medium text-white">{event.location}</div>
+                              <div className="text-sm text-gray-400">
+                                {event.address}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center text-gray-300">
+                            <Users className="w-5 h-5 mr-3 text-neon-pink" />
+                            <div>
+                              <div className="font-medium text-white">
+                                {event.expectedDonors} Expected Donors
+                              </div>
+                              <div className="text-sm text-gray-400">
+                                {event.spotsLeft} spots remaining
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center text-gray-300">
+                            <Heart className="w-5 h-5 mr-3 text-neon-pink" fill="currentColor" />
+                            <div>
+                              <div className="font-medium text-white">Organized by</div>
+                              <div className="text-sm text-gray-400">
+                                {event.organizer}
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex items-center text-gray-300">
-                          <MapPin className="w-5 h-5 mr-3 text-neon-pink" />
-                          <div>
-                            <div className="font-medium text-white">{event.location}</div>
-                            <div className="text-sm text-gray-400">
-                              {event.address}
-                            </div>
+                        {/* Progress Bar */}
+                        <div className="mb-6">
+                          <div className="flex justify-between text-sm mb-2">
+                            <span className="text-gray-400">
+                              Registration Progress
+                            </span>
+                            <span className="text-gray-400">
+                              {event.expectedDonors - event.spotsLeft}/{event.expectedDonors}
+                            </span>
+                          </div>
+                          <div className="w-full bg-gray-700 rounded-full h-2">
+                            <div
+                              className="bg-gradient-to-r from-neon-pink to-electric-cyan h-2 rounded-full transition-all duration-300"
+                              style={{
+                                width: `${((event.expectedDonors - event.spotsLeft) / event.expectedDonors) * 100}%`
+                              }}
+                            />
                           </div>
                         </div>
 
-                        <div className="flex items-center text-gray-300">
-                          <Users className="w-5 h-5 mr-3 text-neon-pink" />
-                          <div>
-                            <div className="font-medium text-white">
-                              {event.expectedDonors} Expected Donors
-                            </div>
-                            <div className="text-sm text-gray-400">
-                              {event.spotsLeft} spots remaining
-                            </div>
-                          </div>
+                        {/* Action Button */}
+                        <div className="mt-auto">
+                          <Button
+                            onClick={() => handleRegister(event.id)}
+                            disabled={isEventRegistered(event.id) || event.spotsLeft === 0 || loading}
+                            className={`w-full md:w-auto px-8 py-3 text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105 ${
+                              isEventRegistered(event.id)
+                                ? 'bg-green-500 hover:bg-green-600 text-white'
+                                : event.spotsLeft === 0
+                                ? 'bg-gray-400 cursor-not-allowed text-white'
+                                : 'bg-gradient-to-r from-neon-pink to-electric-cyan hover:from-neon-pink/90 hover:to-electric-cyan/90 text-white'
+                            }`}
+                          >
+                            {isEventRegistered(event.id) ? (
+                              <>
+                                <Heart className="w-5 h-5 mr-2" fill="currentColor" />
+                                You're Registered!
+                              </>
+                            ) : event.spotsLeft === 0 ? (
+                              'Event Full'
+                            ) : (
+                              <>
+                                <Calendar className="w-5 h-5 mr-2" />
+                                {loading ? 'Registering...' : 'Register Now'}
+                              </>
+                            )}
+                          </Button>
                         </div>
-
-                        <div className="flex items-center text-gray-300">
-                          <Heart className="w-5 h-5 mr-3 text-neon-pink" fill="currentColor" />
-                          <div>
-                            <div className="font-medium text-white">Organized by</div>
-                            <div className="text-sm text-gray-400">
-                              {event.organizer}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Progress Bar */}
-                      <div className="mb-6">
-                        <div className="flex justify-between text-sm mb-2">
-                          <span className="text-gray-400">
-                            Registration Progress
-                          </span>
-                          <span className="text-gray-400">
-                            {event.expectedDonors - event.spotsLeft}/{event.expectedDonors}
-                          </span>
-                        </div>
-                        <div className="w-full bg-gray-700 rounded-full h-2">
-                          <div
-                            className="bg-gradient-to-r from-neon-pink to-electric-cyan h-2 rounded-full transition-all duration-300"
-                            style={{
-                              width: `${((event.expectedDonors - event.spotsLeft) / event.expectedDonors) * 100}%`
-                            }}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Action Button */}
-                      <div className="mt-auto">
-                        <Button
-                          onClick={() => handleRegister(event.id)}
-                          disabled={isEventRegistered(event.id) || event.spotsLeft === 0 || loading}
-                          className={`w-full md:w-auto px-8 py-3 text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105 ${
-                            isEventRegistered(event.id)
-                              ? 'bg-green-500 hover:bg-green-600 text-white'
-                              : event.spotsLeft === 0
-                              ? 'bg-gray-400 cursor-not-allowed text-white'
-                              : 'bg-gradient-to-r from-neon-pink to-electric-cyan hover:from-neon-pink/90 hover:to-electric-cyan/90 text-white'
-                          }`}
-                        >
-                          {isEventRegistered(event.id) ? (
-                            <>
-                              <Heart className="w-5 h-5 mr-2" fill="currentColor" />
-                              You're Registered!
-                            </>
-                          ) : event.spotsLeft === 0 ? (
-                            'Event Full'
-                          ) : (
-                            <>
-                              <Calendar className="w-5 h-5 mr-2" />
-                              {loading ? 'Registering...' : 'Register Now'}
-                            </>
-                          )}
-                        </Button>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
 
           {/* Empty State */}

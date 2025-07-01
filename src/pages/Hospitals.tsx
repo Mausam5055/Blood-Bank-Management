@@ -407,7 +407,7 @@ const Hospitals = () => {
       </svg>
       <Navbar />
       {/* Hero/Header Section */}
-      <div className="relative w-full px-0 pt-12 pb-10 flex items-center justify-center text-center overflow-hidden min-h-[180px] md:min-h-[220px]">
+      <div className="relative w-full px-0 pt-20 md:pt-12 pb-10 flex items-center justify-center text-center overflow-hidden min-h-[180px] md:min-h-[220px]">
         {/* Hero Background Image - edge-to-edge */}
         <div className="absolute left-0 top-0 w-screen h-full z-0">
           <img
