@@ -1,73 +1,105 @@
-# Welcome to your Lovable project
+# 🩸 Blood Bank Management System
 
-## Project info
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000?logo=vercel)](https://blood-bank-management-gamma.vercel.app/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-18.3.1-61dafb?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-3178c6?logo=typescript)](https://www.typescriptlang.org/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.11-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
 
-**URL**: https://lovable.dev/projects/4af40328-c0a8-4fdb-bb08-dbe4e6fe6abc
+---
 
-## How can I edit this code?
+![Preview](public/Preview1.png)
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🌐 Live Demo
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4af40328-c0a8-4fdb-bb08-dbe4e6fe6abc) and start prompting.
+**Website:** [https://blood-bank-management-gamma.vercel.app/](https://blood-bank-management-gamma.vercel.app/)
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## 📖 Project Overview
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Blood Bank Management System is a modern, full-stack web application designed to streamline the process of blood donation, donor management, and blood requests. The platform connects donors, hospitals, and recipients, making it easier to save lives through efficient blood management.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🚀 Features
 
+| Feature                | Description                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| Donor Registration     | Easy sign-up and profile management for blood donors.                        |
+| Blood Request          | Request blood for emergencies and track request status.                      |
+| Donor Directory        | Search and filter donors by blood type, location, and availability.          |
+| Hospital Management    | Hospitals can manage blood requests and donor lists.                         |
+| Event Hosting          | Organize and promote blood donation events.                                  |
+| Blog & Resources       | Educational blog posts and resources about blood donation.                   |
+| Authentication         | Secure login and registration for users and hospitals.                       |
+| Responsive UI          | Mobile-friendly, modern design using Tailwind CSS and shadcn-ui.             |
+| Analytics              | Donor and request statistics dashboard.                                      |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React, TypeScript, Vite
+- **UI:** Tailwind CSS, shadcn-ui
+- **State Management:** React Query
+- **Backend/DB:** Supabase
+- **Deployment:** Vercel
+
+---
+
+## 🖼️ Preview Images
+
+| Home Page                | Dashboard Page             |
+|--------------------------|---------------------------|
+| ![Home](public/Preview1.png) | ![Dashboard](public/preview2.png) |
+
+---
+
+## ⚡ Getting Started
+
+### Prerequisites
+- Node.js & npm (recommended: use [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+
+### Setup
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# 1. Clone the repository
 git clone <YOUR_GIT_URL>
+cd Blood-Bank-Management
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# 2. Install dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 3. Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🌍 Deployment
 
-**Use GitHub Codespaces**
+This project is deployed on [Vercel](https://vercel.com/). To deploy your own version:
+1. Fork or clone this repository.
+2. Push to your GitHub account.
+3. Import the repo into Vercel and set up environment variables if needed.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 📄 License
 
-This project is built with:
+This project is licensed under the MIT License.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 🙏 Contributing
 
-Simply open [Lovable](https://lovable.dev/projects/4af40328-c0a8-4fdb-bb08-dbe4e6fe6abc) and click on Share -> Publish.
+Contributions are welcome! Please open issues or submit pull requests for improvements.
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 📣 Credits
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- Built with [React](https://react.dev/), [Vite](https://vitejs.dev/), [Tailwind CSS](https://tailwindcss.com/), [Supabase](https://supabase.com/), and [shadcn-ui](https://ui.shadcn.com/).
+- Preview images from the project `/public` folder.
